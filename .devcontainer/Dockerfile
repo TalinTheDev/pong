@@ -18,6 +18,7 @@ RUN pacman -S --noconfirm --needed base-devel
 RUN pacman -S --noconfirm --needed npm
 RUN pacman -S --noconfirm --needed cargo
 RUN pacman -S --noconfirm --needed less
+RUN pacman -S --noconfirm --needed wayland
 
 # Create a dev user
 ARG USER=talin
