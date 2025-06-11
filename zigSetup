@@ -8,7 +8,7 @@ if command -q zvm
 end
 
 curl https://raw.githubusercontent.com/tristanisham/zvm/master/install.sh | bash
-source $HOME/.config/config.fish
+source $HOME/.config/fish/config.fish
 
 if [ "$argv[1]" ]
     zvm i --zls "$argv[1]"
