@@ -1,0 +1,14 @@
+{
+	"name": "Pong",
+	"build": {
+		"dockerfile": "Dockerfile",
+		"args": {
+			"USER": "${localEnv:USER:talin}",
+			"HOME": "${localEnv:HOME:/home/talin}"
+		}
+	},
+	"remoteUser": "${localEnv:USER:talin}",
+	"workspaceMount": "source=${localWorkspaceFolder},target=/home/${localEnv:USER:talin}/Projects/pong,type=bind",
+	"workspaceFolder": "/home/${localEnv:USER:talin}/Projects/pong",
+	"postCreateCommand": "/usr/bin/env fish ./zigSetup -- 0.14.0"
+}
