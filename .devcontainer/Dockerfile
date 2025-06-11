@@ -19,6 +19,8 @@ RUN pacman -S --noconfirm --needed npm
 RUN pacman -S --noconfirm --needed cargo
 RUN pacman -S --noconfirm --needed less
 RUN pacman -S --noconfirm --needed wayland
+RUN pacman -S --noconfirm --needed libxkbcommon
+RUN pacman -S --noconfirm --needed egl-wayland
 
 # Create a dev user
 ARG USER=talin
