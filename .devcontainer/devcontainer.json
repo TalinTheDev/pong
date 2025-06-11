@@ -1,5 +1,5 @@
 {
-	"name": "Pong",
+	"name": "${localWorkspaceFolderBasename}",
 	"build": {
 		"dockerfile": "Dockerfile",
 		"args": {
@@ -8,7 +8,7 @@
 		}
 	},
 	"remoteUser": "${localEnv:USER:talin}",
-	"workspaceMount": "source=${localWorkspaceFolder},target=/home/${localEnv:USER:talin}/Projects/pong,type=bind",
-	"workspaceFolder": "/home/${localEnv:USER:talin}/Projects/pong",
-	"postCreateCommand": "/usr/bin/env fish ./zigSetup -- 0.14.0"
+	"workspaceMount": "source=${localWorkspaceFolder},target=/home/${localEnv:USER:talin}/Projects/${localWorkspaceFolderBasename},type=bind",
+	"workspaceFolder": "/home/${localEnv:USER:talin}/Projects/${localWorkspaceFolderBasename}",
+	"postCreateCommand": "/usr/bin/env fish ./zigSetup 0.14.0"
 }
