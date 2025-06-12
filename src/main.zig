@@ -17,14 +17,8 @@ pub fn main() !void {
         const WIDTH = rl.getRenderWidth();
 
         lib.ball.drawBall(HEIGHT, WIDTH);
-
-        const rec: rl.Rectangle = rl.Rectangle{
-            .x = 0,
-            .y = 0,
-            .height = 100,
-            .width = 10,
-        };
-        rl.drawRectangleRec(rec, rl.Color.blue);
+        lib.paddle.drawPaddleLeft();
+        lib.paddle.drawPaddleRight(WIDTH);
 
         rl.clearBackground(rl.Color.white);
     }

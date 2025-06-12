@@ -1,7 +1,9 @@
 const rl = @import("raylib");
 
 pub const ball = struct {
+    const RADIUS = 25;
     const BALL_VELOCITY = 400;
+
     var ball_negate: i8 = 1;
     var x: i32 = 375;
     var y: i32 = 200;
@@ -11,15 +13,15 @@ pub const ball = struct {
         x = x + (ball_negate * ball_delta);
         y = y + (ball_negate * ball_delta);
 
-        if (y > HEIGHT)
+        if (y > HEIGHT - RADIUS)
             ball_negate = -1;
-        if (x > WIDTH)
+        if (x > WIDTH - RADIUS)
             ball_negate = -1;
-        if (y < 0)
+        if (y < 0 + RADIUS)
             ball_negate = 1;
-        if (x < 0)
+        if (x < 0 + RADIUS)
             ball_negate = 1;
 
-        rl.drawCircle(x, y, 25, rl.Color.orange);
+        rl.drawCircle(x, y, RADIUS, rl.Color.orange);
     }
 };
