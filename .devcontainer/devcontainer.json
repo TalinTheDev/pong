@@ -7,6 +7,11 @@
 			"HOME": "${localEnv:HOME:/home/talin}"
 		}
 	},
+	"runArgs": [
+		"--env=WAYLAND_DISPLAY=${localEnv:WAYLAND_DISPLAY}",
+		"--network=host",
+		"--env=XDG_RUNTIME_DIR=${localEnv:XDG_RUNTIME_DIR}"
+	],
 	"remoteUser": "${localEnv:USER:talin}",
 	"workspaceMount": "source=${localWorkspaceFolder},target=/home/${localEnv:USER:talin}/Projects/${localWorkspaceFolderBasename},type=bind",
 	"workspaceFolder": "/home/${localEnv:USER:talin}/Projects/${localWorkspaceFolderBasename}",
