@@ -17,5 +17,8 @@ pub fn main() !void {
 
         rl.clearBackground(rl.Color.sky_blue);
         std.debug.print("Current FPS: {}\n", .{rl.getFPS()});
+
+        const x: i32 = @intFromFloat(rl.getTime() * 100);
+        rl.drawCircle(0 + x, 0 + x, 25, rl.Color.white);
     }
 }
