@@ -17,8 +17,8 @@ pub fn main() !void {
         const WIDTH = rl.getRenderWidth();
 
         lib.ball.drawBall(HEIGHT, WIDTH);
-        lib.paddle.drawPaddleLeft();
-        lib.paddle.drawPaddleRight(WIDTH);
+        lib.paddle.drawPaddleLeft(HEIGHT);
+        lib.paddle.drawPaddleRight(HEIGHT, WIDTH);
 
         rl.clearBackground(rl.Color.white);
     }
