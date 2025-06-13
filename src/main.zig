@@ -3,9 +3,11 @@ const std = @import("std");
 const lib = @import("pong_lib");
 const rl = @import("raylib");
 
+var data: lib.GAME_DATA = lib.GAME_DATA{};
+
 pub fn main() !void {
     // Init Game
-    rl.initWindow(800, 450, "Pong");
+    rl.initWindow(data.height, data.width, data.title);
     defer rl.closeWindow();
 
     rl.setTargetFPS(60);
@@ -15,13 +17,13 @@ pub fn main() !void {
         defer rl.endDrawing();
 
         // Get window details
-        const HEIGHT = rl.getRenderHeight();
-        const WIDTH = rl.getRenderWidth();
+        data.height = rl.getRenderHeight();
+        data.width = rl.getRenderWidth();
 
         // Draw game objects
-        lib.ball.drawBall(HEIGHT, WIDTH);
-        lib.paddle.drawPaddleLeft(HEIGHT);
-        lib.paddle.drawPaddleRight(HEIGHT, WIDTH);
+        lib.paddle.drawPaddleLeft(&data);
+        lib.paddle.drawPaddleRight(&data);
+        lib.ball.drawBall(&data);
 
         // Clear screen and set background to white
         rl.clearBackground(rl.Color.white);

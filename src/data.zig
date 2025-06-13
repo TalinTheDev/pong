@@ -1,0 +1,12 @@
+//! This file contains the game data struct that gets passed around
+const rl = @import("raylib");
+
+pub const GAME_DATA = struct {
+    // Window height/width; gets updated every frame
+    height: i32 = 800,
+    width: i32 = 450,
+    title: [:0]const u8 = "Pong",
+
+    leftPaddle: ?*rl.Rectangle = null,
+    rightPaddle: ?*rl.Rectangle = null,
+};

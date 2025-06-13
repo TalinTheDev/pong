@@ -1,4 +1,5 @@
 const rl = @import("raylib");
+const lib_data = @import("data.zig");
 
 pub const paddle = struct {
     // Paddle related constants
@@ -7,41 +8,49 @@ pub const paddle = struct {
     const PADDLE_MOVE = 10;
 
     // The two Rectangles that represent each paddle (identical at first)
-    var paddleLeft = rl.Rectangle{ .x = 0, .y = 0, .height = PADDLE_HEIGHT, .width = PADDLE_WIDTH };
-    var paddleRight = rl.Rectangle{ .x = 0, .y = 0, .height = PADDLE_HEIGHT, .width = PADDLE_WIDTH };
+    var leftPaddle = rl.Rectangle{ .x = 0, .y = 0, .height = PADDLE_HEIGHT, .width = PADDLE_WIDTH };
+    var rightPaddle = rl.Rectangle{ .x = 0, .y = 0, .height = PADDLE_HEIGHT, .width = PADDLE_WIDTH };
 
     /// Draws the left paddle.
     /// Takes in a HEIGHT which represents the window height
     /// Uses keyboard input (W/S) to move paddle and performs collision checking
     /// Then moves & draws the paddle blue
-    pub fn drawPaddleLeft(HEIGHT: i32) void {
+    pub fn drawPaddleLeft(data: *lib_data.GAME_DATA) void {
+        // Make sure the left paddle is in the game data struct
+        if (data.leftPaddle == null)
+            data.leftPaddle = &leftPaddle;
+
         // Move paddle based on W/S and perform window collision checking
-        if (rl.isKeyDown(rl.KeyboardKey.w) and paddleLeft.y > 0) {
-            paddleLeft.y -= PADDLE_MOVE;
-        } else if (rl.isKeyDown(rl.KeyboardKey.s) and @as(i32, @intFromFloat(paddleLeft.y)) + PADDLE_HEIGHT <= HEIGHT) {
-            paddleLeft.y += PADDLE_MOVE;
+        if (rl.isKeyDown(rl.KeyboardKey.w) and leftPaddle.y > 0) {
+            leftPaddle.y -= PADDLE_MOVE;
+        } else if (rl.isKeyDown(rl.KeyboardKey.s) and @as(i32, @intFromFloat(leftPaddle.y)) + PADDLE_HEIGHT <= data.height) {
+            leftPaddle.y += PADDLE_MOVE;
         }
 
         // Draw the paddle blue
-        rl.drawRectangleRec(paddleLeft, rl.Color.blue);
+        rl.drawRectangleRec(leftPaddle, rl.Color.blue);
     }
 
     /// Draws the right paddle on the right side of the screen.
     /// Takes in a HEIGHT & WIDTH which represents the window height/width
     /// Uses keyboard input (UP/DOWN) to move paddle and performs collision checking
     /// Then moves & draws the paddle red
-    pub fn drawPaddleRight(HEIGHT: i32, WIDTH: i32) void {
+    pub fn drawPaddleRight(data: *lib_data.GAME_DATA) void {
+        // Make sure the right paddle is in the game data struct
+        if (data.rightPaddle == null)
+            data.rightPaddle = &rightPaddle;
+
         // Move paddle to the right
-        paddleRight.x = @floatFromInt(WIDTH - PADDLE_WIDTH);
+        rightPaddle.x = @floatFromInt(data.width - PADDLE_WIDTH);
 
         // Move paddle based on UP/DOWN and preform window collision checking
-        if (rl.isKeyDown(rl.KeyboardKey.up) and paddleRight.y > 0) {
-            paddleRight.y -= 10;
-        } else if (rl.isKeyDown(rl.KeyboardKey.down) and @as(i32, @intFromFloat(paddleRight.y)) + PADDLE_HEIGHT <= HEIGHT) {
-            paddleRight.y += 10;
+        if (rl.isKeyDown(rl.KeyboardKey.up) and rightPaddle.y > 0) {
+            rightPaddle.y -= 10;
+        } else if (rl.isKeyDown(rl.KeyboardKey.down) and @as(i32, @intFromFloat(rightPaddle.y)) + PADDLE_HEIGHT <= data.height) {
+            rightPaddle.y += 10;
         }
 
         // Draw the paddle red
-        rl.drawRectangleRec(paddleRight, rl.Color.red);
+        rl.drawRectangleRec(rightPaddle, rl.Color.red);
     }
 };

@@ -1,37 +1,43 @@
 const rl = @import("raylib");
+const lib_data = @import("data.zig");
 
 pub const ball = struct {
     // Ball related constants/variables
     const RADIUS = 25;
-    const BALL_VELOCITY = 400;
+    const BALL_VELOCITY = 300;
 
-    var ball_negate: i8 = 1; // When flipped to -1, ball changes direction
-    var x: i32 = 375; // Starting position is center of default screen width
-    var y: i32 = 200; // Starting position is center of default screen height
+    var ball_negate_x: i8 = 1; // When flipped to -1, ball changes direction (x)
+    var ball_negate_y: i8 = 1; // When flipped to -1, ball changes direction (y)
+    var center = rl.Vector2{ .x = 375, .y = 200 }; // Starting position of ball is center of the screen
 
     /// Draws the ball onto the screen
     /// Takes in a HEIGHT & WIDTH, each representing the current height/width of the window
     /// Calculates collisions and moves ball appropriately
     /// Finally draws the ball orange
-    pub fn drawBall(HEIGHT: i32, WIDTH: i32) void {
+    pub fn drawBall(data: *lib_data.GAME_DATA) void {
         // Get movement delta using frame time (also known as delta time)
         const ball_delta: i32 = @intFromFloat(BALL_VELOCITY * rl.getFrameTime());
 
         // Window collision checking
-        if (y > HEIGHT - RADIUS)
-            ball_negate = -1;
-        if (x > WIDTH - RADIUS)
-            ball_negate = -1;
-        if (y < 0 + RADIUS)
-            ball_negate = 1;
-        if (x < 0 + RADIUS)
-            ball_negate = 1;
+        if (center.y > @as(f32, @floatFromInt(data.height - RADIUS)))
+            ball_negate_y = -1;
+        if (center.x > @as(f32, @floatFromInt(data.width - RADIUS)))
+            ball_negate_x = -1;
+        if (center.y < @as(f32, @floatFromInt(0 + RADIUS)))
+            ball_negate_y = 1;
+        if (center.x < @as(f32, @floatFromInt(0 + RADIUS)))
+            ball_negate_x = 1;
+
+        if (rl.checkCollisionCircleRec(center, RADIUS, data.leftPaddle.?.*)) {
+            ball_negate_x = 1;
+        } else if (rl.checkCollisionCircleRec(center, RADIUS, data.rightPaddle.?.*)) {
+            ball_negate_x = -1;
+        }
 
         // Calculate new position based on the delta and collision checks
-        x = x + (ball_negate * ball_delta);
-        y = y + (ball_negate * ball_delta);
+        center.x += @as(f32, @floatFromInt(ball_negate_x * ball_delta));
 
         // Draw ball orange
-        rl.drawCircle(x, y, RADIUS, rl.Color.orange);
+        rl.drawCircleV(center, RADIUS, rl.Color.orange);
     }
 };
