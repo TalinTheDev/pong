@@ -1,4 +1,5 @@
 const rl = @import("raylib");
+const std = @import("std");
 const lib_data = @import("data.zig");
 
 pub const ball = struct {
@@ -8,13 +9,20 @@ pub const ball = struct {
 
     var ball_negate_x: i8 = 1; // When flipped to -1, ball changes direction (x)
     var ball_negate_y: i8 = 1; // When flipped to -1, ball changes direction (y)
-    var center = rl.Vector2{ .x = 375, .y = 200 }; // Starting position of ball is center of the screen
+    // Starting position of ball is estimated center of the screen
+    var center = rl.Vector2{ .x = 350, .y = 200 };
+    var firstDraw = true;
 
     /// Draws the ball onto the screen
     /// Takes in a HEIGHT & WIDTH, each representing the current height/width of the window
     /// Calculates collisions and moves ball appropriately
     /// Finally draws the ball orange
     pub fn drawBall(data: *lib_data.GAME_DATA) void {
+        if (firstDraw) {
+            ball_negate_x = if (data.rand.boolean()) 1 else -1;
+            ball_negate_y = if (data.rand.boolean()) 1 else -1;
+            firstDraw = false;
+        }
         // Get movement delta using frame time (also known as delta time)
         const ball_delta: i32 = @intFromFloat(BALL_VELOCITY * rl.getFrameTime());
 

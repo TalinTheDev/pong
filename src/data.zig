@@ -1,4 +1,5 @@
 //! This file contains the game data struct that gets passed around
+const std = @import("std");
 const rl = @import("raylib");
 
 pub const GAME_DATA = struct {
@@ -9,4 +10,7 @@ pub const GAME_DATA = struct {
 
     leftPaddle: ?*rl.Rectangle = null,
     rightPaddle: ?*rl.Rectangle = null,
+
+    // Random number generator
+    rand: *const std.Random,
 };
