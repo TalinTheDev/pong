@@ -36,6 +36,7 @@ pub const ball = struct {
 
         // Calculate new position based on the delta and collision checks
         center.x += @as(f32, @floatFromInt(ball_negate_x * ball_delta));
+        center.y += @as(f32, @floatFromInt(ball_negate_y * ball_delta));
 
         // Draw ball orange
         rl.drawCircleV(center, RADIUS, rl.Color.orange);
