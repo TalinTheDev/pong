@@ -29,6 +29,10 @@ pub fn main() !void {
         lib.paddle.drawPaddleRight(&data);
         lib.ball.drawBall(&data);
 
+        var buf: [100]u8 = undefined;
+        const scores = try std.fmt.bufPrintZ(&buf, "{} | {}", .{ data.leftScore, data.rightScore });
+        rl.drawText(scores, @divFloor(data.width - 125, 2), 50, 48, rl.Color.black);
+
         // Clear screen and set background to white
         rl.clearBackground(rl.Color.white);
     }

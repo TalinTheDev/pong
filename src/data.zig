@@ -13,4 +13,9 @@ pub const GAME_DATA = struct {
 
     // Random number generator
     rand: *const std.Random,
+
+    // Game state
+    firstDraw: bool = true,
+    leftScore: u32 = 0,
+    rightScore: u32 = 0,
 };
