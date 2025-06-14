@@ -2,6 +2,8 @@
 const std = @import("std");
 const rl = @import("raylib");
 
+pub const Scenes = enum { Title, Game };
+
 pub const GAME_DATA = struct {
     // Window height/width; gets updated every frame
     height: i32 = 800,
@@ -15,6 +17,7 @@ pub const GAME_DATA = struct {
     rand: *const std.Random,
 
     // Game state
+    currentScene: Scenes = .Title,
     firstDraw: bool = true,
     leftScore: u32 = 0,
     rightScore: u32 = 0,
