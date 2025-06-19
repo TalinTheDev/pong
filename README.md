@@ -18,4 +18,12 @@ I might come back to it though, you never know.
 
 That's all for now though. 
 
-- Talin
+-Talin
+
+## Update [6/19/2025]
+First day of summer vacation, reorganized my desk, wanted to see how code looks with new setup, 
+ended up organizing this code. Not many changes and zero functional changes. Commit #5ca2374
+
+Still don't plan on any extra stuff though.
+
+-Talin
