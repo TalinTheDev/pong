@@ -1,6 +1,8 @@
+//! This file holds the logic for the ball
 const rl = @import("raylib");
 const std = @import("std");
 const lib_data = @import("data.zig");
+const lib = @import("utils.zig");
 
 pub const ball = struct {
     // Ball related constants/variables
@@ -18,7 +20,10 @@ pub const ball = struct {
     /// Finally draws the ball orange
     pub fn drawBall(data: *lib_data.GAME_DATA) void {
         if (data.firstDraw) {
-            center = rl.Vector2{ .x = @as(f32, @floatFromInt(@divFloor(data.width, 2) + RADIUS)), .y = @as(f32, @floatFromInt(@divFloor(data.height, 2) + RADIUS)) };
+            center = rl.Vector2{
+                .x = lib.fti(@divFloor(data.width, 2) + RADIUS),
+                .y = lib.fti(@divFloor(data.height, 2) + RADIUS),
+            };
             ball_negate_x = if (data.rand.boolean()) 1 else -1;
             ball_negate_y = if (data.rand.boolean()) 1 else -1;
             data.firstDraw = false;
@@ -26,22 +31,25 @@ pub const ball = struct {
             return;
         }
         // Get movement delta using frame time (also known as delta time)
-        const ball_delta: i32 = @intFromFloat(BALL_VELOCITY * rl.getFrameTime());
+        const ball_delta: i32 = lib.itf(BALL_VELOCITY * rl.getFrameTime());
 
         // Window collision checking
-        if (center.y > @as(f32, @floatFromInt(data.height - RADIUS)))
+        if (center.y > lib.fti(data.height - RADIUS))
             ball_negate_y = -1;
-        if (center.x > @as(f32, @floatFromInt(data.width - RADIUS))) {
+        if (center.x > lib.fti(data.width - RADIUS)) {
+            // Restart game and add 1 point for left
             data.firstDraw = true;
             data.leftScore += 1;
         }
-        if (center.y < @as(f32, @floatFromInt(0 + RADIUS)))
+        if (center.y < lib.fti(0 + RADIUS))
             ball_negate_y = 1;
-        if (center.x < @as(f32, @floatFromInt(0 + RADIUS))) {
+        if (center.x < lib.fti(0 + RADIUS)) {
+            // Restart game and add 1 point for right
             data.firstDraw = true;
             data.rightScore += 1;
         }
 
+        // Paddle collision checking
         if (rl.checkCollisionCircleRec(center, RADIUS, data.leftPaddle.?.*)) {
             ball_negate_x = 1;
         } else if (rl.checkCollisionCircleRec(center, RADIUS, data.rightPaddle.?.*)) {
@@ -49,8 +57,8 @@ pub const ball = struct {
         }
 
         // Calculate new position based on the delta and collision checks
-        center.x += @as(f32, @floatFromInt(ball_negate_x * ball_delta));
-        center.y += @as(f32, @floatFromInt(ball_negate_y * ball_delta));
+        center.x += lib.fti(ball_negate_x * ball_delta);
+        center.y += lib.fti(ball_negate_y * ball_delta);
 
         // Draw ball orange
         rl.drawCircleV(center, RADIUS, rl.Color.orange);

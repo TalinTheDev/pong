@@ -1,5 +1,7 @@
+//! This file holds the logic for the paddles
 const rl = @import("raylib");
 const lib_data = @import("data.zig");
+const lib = @import("utils.zig");
 
 pub const paddle = struct {
     // Paddle related constants
@@ -23,7 +25,7 @@ pub const paddle = struct {
         // Move paddle based on W/S and perform window collision checking
         if (rl.isKeyDown(rl.KeyboardKey.w) and leftPaddle.y > 0) {
             leftPaddle.y -= PADDLE_MOVE;
-        } else if (rl.isKeyDown(rl.KeyboardKey.s) and @as(i32, @intFromFloat(leftPaddle.y)) + PADDLE_HEIGHT <= data.height) {
+        } else if (rl.isKeyDown(rl.KeyboardKey.s) and lib.itf(leftPaddle.y) + PADDLE_HEIGHT <= data.height) {
             leftPaddle.y += PADDLE_MOVE;
         }
 
@@ -41,12 +43,12 @@ pub const paddle = struct {
             data.rightPaddle = &rightPaddle;
 
         // Move paddle to the right
-        rightPaddle.x = @floatFromInt(data.width - PADDLE_WIDTH);
+        rightPaddle.x = lib.fti(data.width - PADDLE_WIDTH);
 
         // Move paddle based on UP/DOWN and preform window collision checking
         if (rl.isKeyDown(rl.KeyboardKey.up) and rightPaddle.y > 0) {
             rightPaddle.y -= 10;
-        } else if (rl.isKeyDown(rl.KeyboardKey.down) and @as(i32, @intFromFloat(rightPaddle.y)) + PADDLE_HEIGHT <= data.height) {
+        } else if (rl.isKeyDown(rl.KeyboardKey.down) and lib.itf(rightPaddle.y) + PADDLE_HEIGHT <= data.height) {
             rightPaddle.y += 10;
         }
 
